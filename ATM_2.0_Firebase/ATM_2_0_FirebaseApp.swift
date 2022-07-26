@@ -11,13 +11,13 @@ import Firebase
 @main
 struct ATM_2_0_FirebaseApp: App {
     
-    init() {
-        FirebaseApp.configure()
-    }
+//    init() {
+//        FirebaseApp.configure()
+//    }
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LogInView()
         }
     }
 }
