@@ -10,13 +10,12 @@ import SwiftUI
 struct LogInView: View {
     var creditCardValidator = CreditCardValidator()
     var logInViewModel = LogInViewModel()
-    @State private var passwordInput: String = ""
-    @State private var isLoginValid: Bool = false
-    @State private var showAlert: Bool = false
-    @State private var alertText: String = ""
-    @State private var testAccountNumber: String = "9875-4852-3698-2525"
-    @State private var testPassword: String = "Ilikefish1971"
-    @State private var testPinNumber: String = "1971"
+    @State var alertText: String = ""
+    @State var accountNumberInput: String = ""
+    @State var pinNumberInput: String = ""
+    @State var passwordInput: String = ""
+    @State var isLogInValid: Bool = false
+    @State var showAlert: Bool = false
     
     var body: some View {
         NavigationView {
