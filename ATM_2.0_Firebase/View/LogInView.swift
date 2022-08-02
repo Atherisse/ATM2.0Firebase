@@ -92,7 +92,7 @@ struct LogInView: View {
                 
                 HStack {
                     
-                    NavigationLink(destination: AccountDetailView(), isActive: $isLoginValid) {
+                    NavigationLink(destination: AccountDetailView(), isActive: $isLogInValid) {
                         /*
                          Here we put the content view of `NavigationLink`.
                          It could be any `View` even `Button`.
