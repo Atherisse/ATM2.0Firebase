@@ -40,9 +40,8 @@ struct LogInView: View {
                             }
                         //limits the maximum character allowed in the text field
                             .onChange(of: accountNumberInput) { _ in
-                                if accountNumberInput.count > 16 {
-                                    let limitedText = accountNumberInput.dropLast()
-                                    accountNumberInput = String(limitedText)
+                                if accountNumberInput.count > accountNumberInputCharacterCountLimitWithHyphen {
+                                    self.accountNumberInput = creditCardValidator.accountNumberCharacterLimiter(textInput: accountNumberInput)
                                 }
                             }
                     } header: {
@@ -68,6 +67,11 @@ struct LogInView: View {
                                 let filteredPinNumberInput = newValue.filter { "0123456789".contains($0) }
                                 if filteredPinNumberInput != newValue {
                                     self.pinNumberInput = filteredPinNumberInput
+                                }
+                            }
+                            .onChange(of: pinNumberInput) { _ in
+                                if pinNumberInput.count > pinNumberInputCharacterCountLimit {
+                                    self.pinNumberInput = creditCardValidator.pinNumberCharacterLimiter(textInput: pinNumberInput)
                                 }
                             }
                     } header: {
