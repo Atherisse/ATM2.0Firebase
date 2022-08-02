@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct LogInView: View {
-    @State private var accountNumberInput: String = ""
-    @State private var pinNumberInput: String = ""
+    var creditCardValidator = CreditCardValidator()
+    var logInViewModel = LogInViewModel()
     @State private var passwordInput: String = ""
     @State private var isLoginValid: Bool = false
     @State private var showAlert: Bool = false
