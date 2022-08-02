@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct LogInView: View {
     var creditCardValidator = CreditCardValidator()
@@ -26,7 +27,17 @@ struct LogInView: View {
                     
                     Section {
                         TextField ("xxxx-xxxx-xxxx-xxxx", text: $accountNumberInput)
-                    
+                        
+                        //restricts input to only include what's permitted
+                        //the onReceive method makes View subscribe to the Just publisher (requires Combine framework)
+                        //Just publisher takes "just" a single value (the new value of numberOfPeople) and emits it when asked.
+                            .onReceive(Just(accountNumberInput)) { newValue in
+                                //only the characters in the string are allowed in the textfield
+                                let filteredAccountNumberInput = newValue.filter { "0123456789-".contains($0) }
+                                if filteredAccountNumberInput != newValue {
+                                    self.accountNumberInput = filteredAccountNumberInput
+                                }
+                            }
                         //limits the maximum character allowed in the text field
                             .onChange(of: accountNumberInput) { _ in
                                 if accountNumberInput.count > 16 {
@@ -52,6 +63,13 @@ struct LogInView: View {
                     
                     Section {
                         TextField ("Enter your PIN code", text: $pinNumberInput)
+                            .onReceive(Just(pinNumberInput)) { newValue in
+                                //only the characters in the string are allowed in the textfield
+                                let filteredPinNumberInput = newValue.filter { "0123456789".contains($0) }
+                                if filteredPinNumberInput != newValue {
+                                    self.pinNumberInput = filteredPinNumberInput
+                                }
+                            }
                     } header: {
                         Text ("PIN Code")
                             .font(.headline)
