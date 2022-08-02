@@ -20,6 +20,8 @@ struct LogInView: View {
     var body: some View {
         NavigationView {
             VStack {
+                Text("Doughbank")
+                    .font(Font.custom("Charter Roman", size: 50))
                 Form {
                     
                     Section {
@@ -37,7 +39,7 @@ struct LogInView: View {
                             .font(.headline)
                             .foregroundColor(.black)
                     } footer: {
-                        Text ("16 digits account number")
+                        Text ("16 digits account number separated by '-'")
                     }
                     
                     Section {
@@ -59,7 +61,7 @@ struct LogInView: View {
                     }
                     
                 }
-                .background(Color.gray)
+                .background(Color.clear)
                 
                 // to disable Form{} initial background color making the desired background color visible.
                 .onAppear {
@@ -88,11 +90,10 @@ struct LogInView: View {
                         })
                     }
                         .frame(width: 120, height: 40)
-                        .background(.red)
+                        .background(.black)
                         .foregroundColor(.white)
                         .cornerRadius(10)
                         .padding()
-                        .navigationTitle("Doughbank Login")
                         .alert(isPresented: $showAlert) {
                             Alert(title: Text(alertText))
                         }
@@ -100,12 +101,14 @@ struct LogInView: View {
                     NavigationLink("Register", destination: RegisterView())
                         .frame(width: 120, height: 40)
                         .foregroundColor(.white)
-                        .background(.red)
+                        .background(.black)
                         .cornerRadius(10)
                         .padding()
                 }
             }
-            .background(.black)
+            .background(
+                LinearGradient(gradient: Gradient(colors: [.green, .blue]), startPoint: .top, endPoint: .bottom)
+            )
         }
     }
 }
