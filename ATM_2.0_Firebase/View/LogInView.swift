@@ -98,17 +98,21 @@ struct LogInView: View {
                          It could be any `View` even `Button`.
                          */
                         Button("Log In", action: {
-                            //determine login validity
-                                let isLoginValid: Bool = accountNumberInput == testAccountNumber && passwordInput == testPassword && pinNumberInput == testPinNumber
-                            
-                            //trigger logic
-                                if isLoginValid {
-                                    self.isLoginValid = true //trigger NavigationLink
+                            self.isLogInValid = logInViewModel.authenticatingLogInDetails(accountNumber: accountNumberInput, password: passwordInput, pinNumber: pinNumberInput)
+                            self.showAlert = logInViewModel.determineShowAlert(logInValidity: isLogInValid)
+                            if accountNumberInput == logInViewModel.testAccountNumber {
+                                if passwordInput == logInViewModel.testPassword {
+                                    if pinNumberInput == logInViewModel.testPinNumber {
+                                        
+                                    } else {
+                                        self.alertText = "Please use the correct PIN code."
+                                    }
+                                } else {
+                                    self.alertText = "Please ensure your password is correct."
                                 }
-                                else {
-                                    self.showAlert = true //trigger Alert
-                                    self.alertText = "Please ensure your log in details are correct. If you do not have an account, please register."
-                                }
+                            } else {
+                                self.alertText = "Please ensure your account number is correct or register if you have yet to own an account."
+                            }
                         })
                     }
                         .frame(width: 120, height: 40)
