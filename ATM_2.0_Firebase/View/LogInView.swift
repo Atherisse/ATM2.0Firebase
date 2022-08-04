@@ -101,7 +101,7 @@ struct LogInView: View {
                          It could be any `View` even `Button`.
                          */
                         Button("Log In", action: {
-                            self.filteredAccountNumber = logInViewModel.filterAccountNumber(accountNumber: accountNumberInput)
+                            self.filteredAccountNumber = creditCardValidator.filterAccountNumber(accountNumber: accountNumberInput)
                             self.isLogInValid = logInViewModel.authenticatingLogInDetails(accountNumber: filteredAccountNumber, password: passwordInput, pinNumber: pinNumberInput)
                             self.showAlert = logInViewModel.determineShowAlert(logInValidity: isLogInValid)
                             if filteredAccountNumber == logInViewModel.testAccountNumber {
