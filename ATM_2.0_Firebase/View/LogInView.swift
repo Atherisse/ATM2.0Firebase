@@ -50,7 +50,7 @@ struct LogInView: View {
                             .font(.headline)
                             .foregroundColor(.black)
                     } footer: {
-                        Text ("16 digits account number separated by '-'")
+                        Text ("16 digits account number")
                     }
                     
                     Section {
@@ -59,6 +59,8 @@ struct LogInView: View {
                         Text ("Password")
                             .font(.headline)
                             .foregroundColor(.black)
+                    } footer: {
+                        Text ("Password is case sensitive")
                     }
                     
                     Section {
