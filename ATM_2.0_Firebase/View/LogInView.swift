@@ -17,6 +17,7 @@ struct LogInView: View {
     @State var passwordInput: String = ""
     @State var isLogInValid: Bool = false
     @State var showAlert: Bool = false
+    @State var filteredAccountNumber: String = ""
     
     var body: some View {
         NavigationView {
@@ -33,7 +34,7 @@ struct LogInView: View {
                         //Just publisher takes "just" a single value (the new value of numberOfPeople) and emits it when asked.
                             .onReceive(Just(accountNumberInput)) { newValue in
                                 //only the characters in the string are allowed in the textfield
-                                let filteredAccountNumberInput = newValue.filter { "0123456789-".contains($0) }
+                                let filteredAccountNumberInput = newValue.filter { "0123456789- ".contains($0) }
                                 if filteredAccountNumberInput != newValue {
                                     self.accountNumberInput = filteredAccountNumberInput
                                 }
@@ -98,9 +99,10 @@ struct LogInView: View {
                          It could be any `View` even `Button`.
                          */
                         Button("Log In", action: {
-                            self.isLogInValid = logInViewModel.authenticatingLogInDetails(accountNumber: accountNumberInput, password: passwordInput, pinNumber: pinNumberInput)
+                            self.filteredAccountNumber = logInViewModel.filterAccountNumber(accountNumber: accountNumberInput)
+                            self.isLogInValid = logInViewModel.authenticatingLogInDetails(accountNumber: filteredAccountNumber, password: passwordInput, pinNumber: pinNumberInput)
                             self.showAlert = logInViewModel.determineShowAlert(logInValidity: isLogInValid)
-                            if accountNumberInput == logInViewModel.testAccountNumber {
+                            if filteredAccountNumber == logInViewModel.testAccountNumber {
                                 if passwordInput == logInViewModel.testPassword {
                                     if pinNumberInput == logInViewModel.testPinNumber {
                                         

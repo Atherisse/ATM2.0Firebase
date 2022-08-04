@@ -10,11 +10,18 @@ import Foundation
 struct LogInViewModel {
     
     //hard coded test values
-    var testAccountNumber: String = "9875-4852-3698-2525"
+    var testAccountNumber: String = "9875485236982525"
     var testPassword: String = "Ilikefish1971"
     var testPinNumber: String = "1971"
     
+    func filterAccountNumber(accountNumber: String) -> String {
+        //filters account number input, removing hyphens and white spaces to match the format stored in the database
+        let filteredAccountNumber = accountNumber.filter { "0123456789".contains($0) }
+        return filteredAccountNumber
+    }
+    
     func authenticatingLogInDetails(accountNumber: String, password: String, pinNumber: String) -> Bool {
+        
         //determine login validity (for now it compares with hard coded values)
         let logInIsValid: Bool = accountNumber == testAccountNumber && password == testPassword && pinNumber == testPinNumber
         
