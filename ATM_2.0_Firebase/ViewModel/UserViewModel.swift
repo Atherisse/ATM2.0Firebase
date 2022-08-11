@@ -35,13 +35,10 @@ class UserViewModel: ObservableObject {
                             //Fetches user details from Firebase
                             return UserModel(
                                 id: users.documentID,
-                                userAccountNumber: users["user_account_number"] as? String ?? "",
-                                username: users["user_username"] as? String ?? "",
-                                userFirstName:users["user_first_name"] as? String ?? "",
+                                userFirstName: users["user_username"] as? String ?? "",
                                 userLastName: users["user_last_name"] as? String ?? "",
-                                userEmail: users["user_email"] as? String ?? "",
-                                userPassword: users["user_password"] as? String ?? "",
-                                userPinNumber: users["user_pin_number"] as? String ?? ""
+                                userEmail: users["user_account_number"] as? String ?? "",
+                                userDateOfBirth: users["user_date_of_birth"] as? Date ?? Date()
                             )
                         }
                     }
