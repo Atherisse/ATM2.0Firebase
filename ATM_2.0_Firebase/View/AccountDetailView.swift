@@ -8,8 +8,18 @@
 import SwiftUI
 
 struct AccountDetailView: View {
+    
+    var creditCardViewModel: CreditCardViewModel = CreditCardViewModel()
+    
     var body: some View {
+        
+        VStack {
+            List(creditCardViewModel.creditCardDetails) { detail in
+                Text(detail.accountNumber)
+            }
+        }
         Text("Account Detail View")
+        
     }
 }
 
