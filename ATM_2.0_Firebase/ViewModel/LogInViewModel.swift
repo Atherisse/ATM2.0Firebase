@@ -9,30 +9,28 @@ import Foundation
 
 struct LogInViewModel {
     
-    //hard coded test values
-    var testAccountNumber: String = "9875485236982525"
-    var testPassword: String = "Ilikefish1971"
-    var testPinNumber: String = "1971"
-    
-    func authenticatingLogInDetails(accountNumber: String, password: String, pinNumber: String) -> Bool {
-        
-        //determine login validity (for now it compares with hard coded values)
-        let logInIsValid: Bool = accountNumber == testAccountNumber && password == testPassword && pinNumber == testPinNumber
+    func authenticatingLogInDetails(passwordInput: String, pinNumberInput: String, databasePassword: String, databasePinNumber: String) -> Bool {
+        //determine login validity
+        let logInIsValid: Bool = passwordInput == databasePassword && pinNumberInput == databasePinNumber
         
         //trigger logic
         if logInIsValid {
+            print("Successful log in")
             return true //trigger NavigationLink
         }
-        
+        print("Unsuccessful log in")
         return false
     }
     
     func determineShowAlert(logInValidity: Bool) -> Bool {
-        
-        //if the login details are invalid, show alert
-        if logInValidity {
-            return false
+            
+            //if the login details are invalid, show alert
+            if logInValidity {
+                print("No alert")
+                return false
+            }
+            print("Show alert")
+            return true
         }
-        return true
-    }
+    
 }

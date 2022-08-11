@@ -9,8 +9,7 @@ import SwiftUI
 import Combine
 
 struct LogInView: View {
-    var creditCardValidator = CreditCardValidator()
-    var logInViewModel = LogInViewModel()
+    @ObservedObject var creditCardViewModel = CreditCardViewModel()
     @State var alertText: String = ""
     @State var accountNumberInput: String = ""
     @State var pinNumberInput: String = ""
@@ -42,7 +41,7 @@ struct LogInView: View {
                         //limits the maximum character allowed in the text field
                             .onChange(of: accountNumberInput) { _ in
                                 if accountNumberInput.count > accountNumberInputCharacterCountLimitWithHyphen {
-                                    self.accountNumberInput = creditCardValidator.accountNumberCharacterLimiter(textInput: accountNumberInput)
+                                    self.accountNumberInput = CreditCardValidator().accountNumberCharacterLimiter(textInput: accountNumberInput)
                                 }
                             }
                     } header: {
@@ -74,7 +73,7 @@ struct LogInView: View {
                             }
                             .onChange(of: pinNumberInput) { _ in
                                 if pinNumberInput.count > pinNumberInputCharacterCountLimit {
-                                    self.pinNumberInput = creditCardValidator.pinNumberCharacterLimiter(textInput: pinNumberInput)
+                                    self.pinNumberInput = CreditCardValidator().pinNumberCharacterLimiter(textInput: pinNumberInput)
                                 }
                             }
                     } header: {
@@ -101,33 +100,53 @@ struct LogInView: View {
                          It could be any `View` even `Button`.
                          */
                         Button("Log In", action: {
-                            self.filteredAccountNumber = creditCardValidator.filterAccountNumber(accountNumber: accountNumberInput)
-                            self.isLogInValid = logInViewModel.authenticatingLogInDetails(accountNumber: filteredAccountNumber, password: passwordInput, pinNumber: pinNumberInput)
-                            self.showAlert = logInViewModel.determineShowAlert(logInValidity: isLogInValid)
-                            if filteredAccountNumber == logInViewModel.testAccountNumber {
-                                if passwordInput == logInViewModel.testPassword {
-                                    if pinNumberInput == logInViewModel.testPinNumber {
-                                        
-                                    } else {
-                                        self.alertText = "Please use the correct PIN code."
+                            
+                            //filters the account number to exclude hyphens and white space if there is any
+                            self.filteredAccountNumber = CreditCardValidator().filterAccountNumber(accountNumber: accountNumberInput)
+                            
+                            creditCardViewModel.doesAccountExist(accountNumber: filteredAccountNumber, completion: { foundAccountNumber in
+                                if (foundAccountNumber) {
+                                    print("Account number is found")
+                                    creditCardViewModel.getUserCreditCardData(accountNumber: filteredAccountNumber)
+
+                                    //loops through the database array
+                                    for detail in creditCardViewModel.creditCardDetails {
+
+                                        //returns boolean, sets to true if password and pin number are the same as the ones in the database
+                                        self.isLogInValid = LogInViewModel().authenticatingLogInDetails(passwordInput: passwordInput, pinNumberInput: pinNumberInput, databasePassword: detail.accountPassword, databasePinNumber: detail.accountPinNumber)
+
+                                        //if password and pin number don't match, shows an alert
+                                        self.showAlert = LogInViewModel().determineShowAlert(logInValidity: isLogInValid)
+
+                                        if passwordInput == detail.accountPassword {
+                                            if pinNumberInput == detail.accountPinNumber {
+                                                print("Log In Successful")
+                                            } else {
+                                                print("Wrong PIN code")
+                                                self.alertText = "Please use the correct PIN code."
+                                            }
+                                        } else {
+                                            print("Wrong password")
+                                            self.alertText = "Please ensure your password is correct."
+                                        }
                                     }
                                 } else {
-                                    self.alertText = "Please ensure your password is correct."
+                                    self.showAlert = true
+                                    self.alertText = "This account number is not registered"
+                                    print("Account number not found")
                                 }
-                            } else {
-                                self.alertText = "Please ensure your account number is correct or register if you have yet to own an account."
-                            }
+                            })
                         })
                     }
-                        .frame(width: 120, height: 40)
-                        .background(.black)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                        .padding()
-                        .alert(isPresented: $showAlert) {
-                            Alert(title: Text(alertText))
-                        }
-                        
+                    .frame(width: 120, height: 40)
+                    .background(.black)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    .padding()
+                    .alert(isPresented: $showAlert) {
+                        Alert(title: Text(alertText))
+                    }
+                    
                     NavigationLink("Register", destination: RegisterView())
                         .frame(width: 120, height: 40)
                         .foregroundColor(.white)
@@ -141,6 +160,8 @@ struct LogInView: View {
             )
         }
     }
+    
+    
 }
 
 struct LogInView_Previews: PreviewProvider {
