@@ -11,12 +11,8 @@ import Firebase
 struct UserModel: Identifiable {
     
     var id: String
-    var userAccountNumber: String
-    var username: String
     var userFirstName: String
     var userLastName: String
     var userEmail: String
-    var userPassword: String
-    var userPinNumber: String
-    
+    var userDateOfBirth: Date
 }
