@@ -9,14 +9,17 @@ import SwiftUI
 import Combine
 
 struct LogInView: View {
-    @ObservedObject var creditCardViewModel = CreditCardViewModel()
+    @EnvironmentObject var creditCardViewModel:CreditCardViewModel
     @State var alertText: String = ""
     @State var accountNumberInput: String = ""
-    @State var pinNumberInput: String = ""
+    @State var pinCodeInput: String = ""
     @State var passwordInput: String = ""
     @State var isLogInValid: Bool = false
     @State var showAlert: Bool = false
-    @State var filteredAccountNumber: String = ""
+    var filteredAccountNumber: String {
+        //filters the account number to exclude hyphens and white space if there is any
+        CreditCardValidator().filterAccountNumber(accountNumber: accountNumberInput)
+    }
     
     var body: some View {
         NavigationView {
@@ -63,17 +66,17 @@ struct LogInView: View {
                     }
                     
                     Section {
-                        TextField ("Enter your PIN code", text: $pinNumberInput)
-                            .onReceive(Just(pinNumberInput)) { newValue in
+                        TextField ("Enter your PIN code", text: $pinCodeInput)
+                            .onReceive(Just(pinCodeInput)) { newValue in
                                 //only the characters in the string are allowed in the textfield
                                 let filteredPinNumberInput = newValue.filter { "0123456789".contains($0) }
                                 if filteredPinNumberInput != newValue {
-                                    self.pinNumberInput = filteredPinNumberInput
+                                    self.pinCodeInput = filteredPinNumberInput
                                 }
                             }
-                            .onChange(of: pinNumberInput) { _ in
-                                if pinNumberInput.count > pinNumberInputCharacterCountLimit {
-                                    self.pinNumberInput = CreditCardValidator().pinNumberCharacterLimiter(textInput: pinNumberInput)
+                            .onChange(of: pinCodeInput) { _ in
+                                if pinCodeInput.count > pinNumberInputCharacterCountLimit {
+                                    self.pinCodeInput = CreditCardValidator().pinNumberCharacterLimiter(textInput: pinCodeInput)
                                 }
                             }
                     } header: {
@@ -95,47 +98,17 @@ struct LogInView: View {
                 HStack {
                     
                     NavigationLink(destination: AccountDetailView(), isActive: $isLogInValid) {
-                        /*
-                         Here we put the content view of `NavigationLink`.
-                         It could be any `View` even `Button`.
-                         */
+                        
                         Button("Log In", action: {
-                            
-                            //filters the account number to exclude hyphens and white space if there is any
-                            self.filteredAccountNumber = CreditCardValidator().filterAccountNumber(accountNumber: accountNumberInput)
-                            
-                            creditCardViewModel.doesAccountExist(accountNumber: filteredAccountNumber, completion: { foundAccountNumber in
-                                if (foundAccountNumber) {
-                                    print("Account number is found")
+                            creditCardViewModel.loginUser(userAccountNumberInput: filteredAccountNumber, userPasswordInput: passwordInput, userPinCodeInput: pinCodeInput) { (loginIsValid) in
+                                if (loginIsValid) {
+                                    self.isLogInValid = true
                                     creditCardViewModel.getUserCreditCardData(accountNumber: filteredAccountNumber)
-
-                                    //loops through the database array
-                                    for detail in creditCardViewModel.creditCardDetails {
-
-                                        //returns boolean, sets to true if password and pin number are the same as the ones in the database
-                                        self.isLogInValid = LogInViewModel().authenticatingLogInDetails(passwordInput: passwordInput, pinNumberInput: pinNumberInput, databasePassword: detail.accountPassword, databasePinNumber: detail.accountPinNumber)
-
-                                        //if password and pin number don't match, shows an alert
-                                        self.showAlert = LogInViewModel().determineShowAlert(logInValidity: isLogInValid)
-
-                                        if passwordInput == detail.accountPassword {
-                                            if pinNumberInput == detail.accountPinNumber {
-                                                print("Log In Successful")
-                                            } else {
-                                                print("Wrong PIN code")
-                                                self.alertText = "Please use the correct PIN code."
-                                            }
-                                        } else {
-                                            print("Wrong password")
-                                            self.alertText = "Please ensure your password is correct."
-                                        }
-                                    }
                                 } else {
                                     self.showAlert = true
-                                    self.alertText = "This account number is not registered"
-                                    print("Account number not found")
+                                    alertText = "Incorrect log in credentials"
                                 }
-                            })
+                            }
                         })
                     }
                     .frame(width: 120, height: 40)
