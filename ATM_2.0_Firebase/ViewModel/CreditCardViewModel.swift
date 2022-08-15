@@ -7,64 +7,68 @@
 
 import Foundation
 import Firebase
+import SwiftUI
 
 class CreditCardViewModel: ObservableObject {
     
     @Published var creditCardDetails = [CreditCardModel]()
     
-    func doesAccountExist(accountNumber: String, completion: @escaping (Bool) -> Void) {
+    func loginUser(userAccountNumberInput: String, userPasswordInput: String, userPinCodeInput: String, completion: @escaping (Bool) -> Void) {
         let db = Firestore.firestore()
+        let dbQuery = db.collection("credit_cards_table").whereField("account_number", isEqualTo: userAccountNumberInput)
         
-        db.collection("credit_cards_table").whereField("account_number", isEqualTo: accountNumber).getDocuments() {(documents, error) in
-            
-            if(error != nil) {
+        dbQuery.getDocuments() {(documents, error) in
+            if (error != nil) {
                 print("Error: \(error?.localizedDescription ?? "")")
-                print("We have localized error")
-                    completion(false)
             }
             
-            for document in documents!.documents{
-                
-                let tableAccountNumber = document.get("account_number")
-                if(accountNumber == tableAccountNumber as! String){
-                    print("We have matched user input to database")
-                    completion(true)
-                    return
-                }
+            var accountNumber: String = ""
+            var password: String = ""
+            var pinCode: String = ""
+            
+            for document in documents!.documents {
+                accountNumber = document.get("account_number") as? String ?? ""
+                password = document.get("account_password") as? String ?? ""
+                pinCode = document.get("account_pin_number") as? String ?? ""
             }
-            completion(false)
+            
+            if (accountNumber != "" && userPasswordInput == password && userPinCodeInput == pinCode) {
+                completion(true)
+                return
+            } else {
+                completion(false)
+            }
         }
     }
     
     func getUserCreditCardData(accountNumber: String) {
-        
-        let db = Firestore.firestore()
-        
-        db.collection("credit_cards_table").whereField("account_number", isEqualTo: accountNumber)
-            .getDocuments() { (creditCardTableContent, error) in
-                
-                if error == nil {
+            
+            let db = Firestore.firestore()
+            
+            db.collection("credit_cards_table").whereField("account_number", isEqualTo: accountNumber)
+                .getDocuments() { (creditCardTableContent, error) in
                     
-                    if let creditCardTableContent = creditCardTableContent {
+                    if error == nil {
                         
-                        DispatchQueue.main.async {
+                        if let creditCardTableContent = creditCardTableContent {
                             
-                            self.creditCardDetails = creditCardTableContent.documents.map { account in
-                                return CreditCardModel(
-                                    id: account.documentID,
-                                    accountNumber: account["account_number"] as? String ?? "",
-                                    accountPassword: account["account_password"] as? String ?? "",
-                                    accountPinNumber: account["account_pin_number"] as? String ?? "",
-                                    cardCvcCode: account["card_cvc_code"] as? String ?? "",
-                                    accountBalance: account["account_balance"] as? Double ?? 0)
+                            DispatchQueue.main.async {
+                                self.creditCardDetails = creditCardTableContent.documents.map { account in
+                                    return CreditCardModel(
+                                        id: account.documentID,
+                                        accountNumber: account["account_number"] as? String ?? "",
+                                        accountPassword: account["account_password"] as? String ?? "",
+                                        accountPinNumber: account["account_pin_number"] as? String ?? "",
+                                        cardCvcCode: account["card_cvc_code"] as? String ?? "",
+                                        accountBalance: account["account_balance"] as? Double ?? 0)
+                                }
                             }
                         }
+                    } else {
+                        print("Error in fetching data: \(String(describing: error))")
                     }
-                } else {
-                    print("Error in fetching data: \(String(describing: error))")
+                    
                 }
-                
-            }
-    }
+        }
 
 }
