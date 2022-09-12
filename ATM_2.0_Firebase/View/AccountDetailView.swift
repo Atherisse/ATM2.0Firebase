@@ -9,13 +9,13 @@ import SwiftUI
 
 struct AccountDetailView: View {
     
-    var creditCardViewModel: CreditCardViewModel = CreditCardViewModel()
+    @EnvironmentObject var creditCardViewModel: CreditCardViewModel
     
     var body: some View {
         
         VStack {
             List(creditCardViewModel.creditCardDetails) { detail in
-                Text(detail.accountNumber)
+                Text("Account number: \(detail.accountNumber)")
             }
         }
         Text("Account Detail View")

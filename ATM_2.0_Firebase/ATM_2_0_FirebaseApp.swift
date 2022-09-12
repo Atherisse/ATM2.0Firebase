@@ -12,7 +12,12 @@ import Firebase
 struct ATM_2_0_FirebaseApp: App {
     
     init() {
+        
+        //makes background color for Form{} in the app clear
+        UITableView.appearance().backgroundColor = .clear
+        
         FirebaseApp.configure()
+        
     }
     
     var body: some Scene {

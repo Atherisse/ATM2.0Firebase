@@ -11,7 +11,6 @@
 		99240DF4288ACC0B003B0C27 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 99240DF3288ACC0B003B0C27 /* Assets.xcassets */; };
 		99240DF7288ACC0B003B0C27 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 99240DF6288ACC0B003B0C27 /* Preview Assets.xcassets */; };
 		993B068F2892610200B6BF89 /* CreditCardValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 993B068E2892610200B6BF89 /* CreditCardValidator.swift */; };
-		994CB4E42893A72E0090FE71 /* LogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994CB4E32893A72E0090FE71 /* LogInViewModel.swift */; };
 		995DDA65289BCB8D002D4EC0 /* CreditCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995DDA64289BCB8D002D4EC0 /* CreditCardViewModel.swift */; };
 		995DDA67289BCC59002D4EC0 /* CreditCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995DDA66289BCC59002D4EC0 /* CreditCardModel.swift */; };
 		997FFBC8288E9880006759AF /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997FFBC7288E9880006759AF /* UserViewModel.swift */; };
@@ -19,6 +18,9 @@
 		997FFBCC288E9916006759AF /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997FFBCB288E9916006759AF /* LogInView.swift */; };
 		997FFBCE288E9969006759AF /* AccountDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997FFBCD288E9969006759AF /* AccountDetailView.swift */; };
 		997FFBD0288E999E006759AF /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997FFBCF288E999E006759AF /* RegisterView.swift */; };
+		999118EF28B7477B0006EC5B /* PasswordSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999118EE28B7477B0006EC5B /* PasswordSetupView.swift */; };
+		99A4C6CA28B4B3C80002E28C /* CheckBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A4C6C928B4B3C80002E28C /* CheckBoxView.swift */; };
+		99A54B0D28B36E1000BEFAFD /* UserRegistrationInputValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A54B0C28B36E1000BEFAFD /* UserRegistrationInputValidator.swift */; };
 		99D03573289ECA1500AB977E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 99D03572289ECA1500AB977E /* GoogleService-Info.plist */; };
 		99D03576289ECA5D00AB977E /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 99D03575289ECA5D00AB977E /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
@@ -29,7 +31,6 @@
 		99240DF3288ACC0B003B0C27 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		99240DF6288ACC0B003B0C27 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		993B068E2892610200B6BF89 /* CreditCardValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditCardValidator.swift; sourceTree = "<group>"; };
-		994CB4E32893A72E0090FE71 /* LogInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewModel.swift; sourceTree = "<group>"; };
 		995DDA64289BCB8D002D4EC0 /* CreditCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditCardViewModel.swift; sourceTree = "<group>"; };
 		995DDA66289BCC59002D4EC0 /* CreditCardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditCardModel.swift; sourceTree = "<group>"; };
 		997FFBC7288E9880006759AF /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
@@ -37,6 +38,9 @@
 		997FFBCB288E9916006759AF /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
 		997FFBCD288E9969006759AF /* AccountDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetailView.swift; sourceTree = "<group>"; };
 		997FFBCF288E999E006759AF /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		999118EE28B7477B0006EC5B /* PasswordSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordSetupView.swift; sourceTree = "<group>"; };
+		99A4C6C928B4B3C80002E28C /* CheckBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBoxView.swift; sourceTree = "<group>"; };
+		99A54B0C28B36E1000BEFAFD /* UserRegistrationInputValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRegistrationInputValidator.swift; sourceTree = "<group>"; };
 		99D03572289ECA1500AB977E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -82,10 +86,10 @@
 			children = (
 				99240DEF288ACC0A003B0C27 /* ATM_2_0_FirebaseApp.swift */,
 				993B068D289260DB00B6BF89 /* Validators */,
-				991DFADD2891833700377196 /* Assets */,
-				997FFBC6288E9812006759AF /* ViewModel */,
-				997FFBC5288E97F8006759AF /* View */,
 				997FFBC4288E97EE006759AF /* Model */,
+				997FFBC5288E97F8006759AF /* View */,
+				997FFBC6288E9812006759AF /* ViewModel */,
+				991DFADD2891833700377196 /* Assets */,
 				99240DF5288ACC0B003B0C27 /* Preview Content */,
 			);
 			path = ATM_2.0_Firebase;
@@ -103,6 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				993B068E2892610200B6BF89 /* CreditCardValidator.swift */,
+				99A54B0C28B36E1000BEFAFD /* UserRegistrationInputValidator.swift */,
 			);
 			path = Validators;
 			sourceTree = "<group>";
@@ -122,6 +127,8 @@
 				997FFBCB288E9916006759AF /* LogInView.swift */,
 				997FFBCD288E9969006759AF /* AccountDetailView.swift */,
 				997FFBCF288E999E006759AF /* RegisterView.swift */,
+				999118EE28B7477B0006EC5B /* PasswordSetupView.swift */,
+				99A4C6C928B4B3C80002E28C /* CheckBoxView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -130,7 +137,6 @@
 			isa = PBXGroup;
 			children = (
 				997FFBC7288E9880006759AF /* UserViewModel.swift */,
-				994CB4E32893A72E0090FE71 /* LogInViewModel.swift */,
 				995DDA64289BCB8D002D4EC0 /* CreditCardViewModel.swift */,
 			);
 			path = ViewModel;
@@ -217,11 +223,13 @@
 				997FFBCA288E98C8006759AF /* UserModel.swift in Sources */,
 				993B068F2892610200B6BF89 /* CreditCardValidator.swift in Sources */,
 				997FFBCC288E9916006759AF /* LogInView.swift in Sources */,
-				994CB4E42893A72E0090FE71 /* LogInViewModel.swift in Sources */,
 				997FFBD0288E999E006759AF /* RegisterView.swift in Sources */,
 				995DDA67289BCC59002D4EC0 /* CreditCardModel.swift in Sources */,
+				99A4C6CA28B4B3C80002E28C /* CheckBoxView.swift in Sources */,
 				997FFBCE288E9969006759AF /* AccountDetailView.swift in Sources */,
 				997FFBC8288E9880006759AF /* UserViewModel.swift in Sources */,
+				999118EF28B7477B0006EC5B /* PasswordSetupView.swift in Sources */,
+				99A54B0D28B36E1000BEFAFD /* UserRegistrationInputValidator.swift in Sources */,
 				995DDA65289BCB8D002D4EC0 /* CreditCardViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

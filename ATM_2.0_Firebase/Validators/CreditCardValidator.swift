@@ -9,6 +9,7 @@ import Foundation
 
 let accountNumberInputCharacterCountLimitWithHyphen: Int = 19
 let pinNumberInputCharacterCountLimit: Int = 4
+let bankNumber: String = "9875"
 
 struct CreditCardValidator {
     

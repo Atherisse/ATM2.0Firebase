@@ -9,28 +9,39 @@ import SwiftUI
 import Combine
 
 struct LogInView: View {
-    @EnvironmentObject var creditCardViewModel:CreditCardViewModel
-    @State var alertText: String = ""
+    @StateObject var creditCardViewModel:CreditCardViewModel = CreditCardViewModel()
+    
+    //--- LOGIN CREDENTIALS VARIABLES ---//
     @State var accountNumberInput: String = ""
     @State var pinCodeInput: String = ""
     @State var passwordInput: String = ""
-    @State var isLogInValid: Bool = false
-    @State var showAlert: Bool = false
+    @State var isLoginAllowed: Bool = false
     var filteredAccountNumber: String {
         //filters the account number to exclude hyphens and white space if there is any
         CreditCardValidator().filterAccountNumber(accountNumber: accountNumberInput)
     }
+    //--- LOGIN CREDENTIALS VARIABLES ---//
+    
+    //--- ALERT VARIABLES ---//
+    @State var showAlert: Bool = false
+    @State var alertText: String = ""
+    //--- ALERT VARIABLES ---//
     
     var body: some View {
         NavigationView {
             VStack {
+                
+                //--- VIEW TITLE ---//
                 Text("Doughbank")
                     .font(Font.custom("Charter Roman", size: 50))
+                //--- VIEW TITLE ---//
+                
+                
                 Form {
                     
+                    //--- ACCOUNT NUMBER INPUT TEXTFIELD---//
                     Section {
                         TextField ("xxxx-xxxx-xxxx-xxxx", text: $accountNumberInput)
-                        
                         //restricts input to only include what's permitted
                         //the onReceive method makes View subscribe to the Just publisher (requires Combine framework)
                         //Just publisher takes "just" a single value (the new value of numberOfPeople) and emits it when asked.
@@ -54,7 +65,9 @@ struct LogInView: View {
                     } footer: {
                         Text ("16 digits account number")
                     }
+                    //--- ACCOUNT NUMBER INPUT TEXTFIELD---//
                     
+                    //--- PASSWORD INPUT TEXTFIELD ---//
                     Section {
                         TextField ("Enter your password", text: $passwordInput)
                     } header: {
@@ -64,7 +77,9 @@ struct LogInView: View {
                     } footer: {
                         Text ("Password is case sensitive")
                     }
+                    //--- PASSWORD INPUT TEXTFIELD ---//
                     
+                    //--- PIN CODE INPUT TEXTFIELD ---//
                     Section {
                         TextField ("Enter your PIN code", text: $pinCodeInput)
                             .onReceive(Just(pinCodeInput)) { newValue in
@@ -86,27 +101,27 @@ struct LogInView: View {
                     } footer: {
                         Text ("4 digits code")
                     }
+                    //--- PIN CODE INPUT TEXTFIELD ---//
                     
                 }
-                .background(Color.clear)
                 
-                // to disable Form{} initial background color making the desired background color visible.
-                .onAppear {
-                    UITableView.appearance().backgroundColor = .clear
-                }
                 
                 HStack {
                     
-                    NavigationLink(destination: AccountDetailView(), isActive: $isLogInValid) {
+                    //--- LOGIN BUTTON ---//
+                    NavigationLink(destination: AccountDetailView()
+                        .environmentObject(creditCardViewModel)
+                        .navigationTitle("")
+                        .navigationBarHidden(true),
+                        isActive: $isLoginAllowed) {
                         
                         Button("Log In", action: {
-                            creditCardViewModel.loginUser(userAccountNumberInput: filteredAccountNumber, userPasswordInput: passwordInput, userPinCodeInput: pinCodeInput) { (loginIsValid) in
-                                if (loginIsValid) {
-                                    self.isLogInValid = true
-                                    creditCardViewModel.getUserCreditCardData(accountNumber: filteredAccountNumber)
+                            creditCardViewModel.loginUser(userAccountNumberInput: filteredAccountNumber, userPasswordInput: passwordInput, userPinCodeInput: pinCodeInput) { (isLoginValid) in
+                                if (isLoginValid) {
+                                    self.isLoginAllowed = true
                                 } else {
                                     self.showAlert = true
-                                    alertText = "Incorrect log in credentials"
+                                    self.alertText = "Incorrect log in credentials"
                                 }
                             }
                         })
@@ -119,18 +134,26 @@ struct LogInView: View {
                     .alert(isPresented: $showAlert) {
                         Alert(title: Text(alertText))
                     }
+                    //--- LOGIN BUTTON ---//
                     
+                    //--- REGISTER BUTTON ---//
                     NavigationLink("Register", destination: RegisterView())
+                        .navigationBarTitleDisplayMode(.inline)
                         .frame(width: 120, height: 40)
                         .foregroundColor(.white)
                         .background(.black)
                         .cornerRadius(10)
                         .padding()
+                    //--- REGISTER BUTTON ---//
                 }
             }
+            
+            //--- VIEW BACKGROUND COLOR ---//
             .background(
                 LinearGradient(gradient: Gradient(colors: [.green, .blue]), startPoint: .top, endPoint: .bottom)
+            //--- VIEW BACKGROUND COLOR ---//
             )
+            .navigationBarHidden(true)
         }
     }
     

@@ -33,6 +33,7 @@ class CreditCardViewModel: ObservableObject {
             }
             
             if (accountNumber != "" && userPasswordInput == password && userPinCodeInput == pinCode) {
+                self.getUserCreditCardData(accountNumber: userAccountNumberInput)
                 completion(true)
                 return
             } else {
@@ -70,5 +71,22 @@ class CreditCardViewModel: ObservableObject {
                     
                 }
         }
+    
+    func generateAccountNumber() -> String {
+        var accountNumber: String = bankNumber
+
+        for _ in 1...3 {
+            accountNumber.append(String(Int.random(in: 1000..<10000)))
+        }
+
+        return accountNumber
+    }
+    
+    func generatePinNumber() -> String {
+        
+        let pinNumber: String = String(Int.random(in: 1000..<10000))
+        
+        return pinNumber
+    }
 
 }

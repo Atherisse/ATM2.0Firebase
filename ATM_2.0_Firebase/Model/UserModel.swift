@@ -13,6 +13,16 @@ struct UserModel: Identifiable {
     var id: String
     var userFirstName: String
     var userLastName: String
-    var userEmail: String
+    var userIdentificationNumber: String
     var userDateOfBirth: Date
+    var userPhoneNumber: String
+    var userEmail: String
+    var userAddressNumberAndStreet: String
+    var userAddressPostcode: String
+    var userAddressCity: String
+    var userAddressState: String
+    var userAddressCountry: String
+    var registrationTimeStamp: Date
+    var userRole: String
+    
 }
